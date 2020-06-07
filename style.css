@@ -1,0 +1,60 @@
+body
+{
+	background-color: #cbcbcb;
+}
+
+#menuebox, #content, #content2
+{
+	font-family: Arial;
+	padding: 5px;
+	position: absolute;
+	background-image: url(images/transparent.png);
+	border: 1px solid black;
+}
+
+a.menue:link, a.menue:visited, a.menue:active
+{
+	text-decoration: none;
+	color: black;
+}
+
+a.menue:hover
+{
+ 	text-decoration: underline; 
+}
+
+#menuebox
+{
+	top: 105px;
+	left: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+#content
+{
+	top: 140px;
+	left: 10px;
+	padding: 10px;
+	max-width: 1180px;
+	max-height: 585px;
+	overflow: auto;
+}
+
+#content2
+{
+	top: 10px;
+	right: 10px;
+	display: none;
+}
+
+input,select
+{
+	font-family: Arial;
+	color:#000000;
+	word-spacing:0;
+	text-indent:0;
+	border:1px solid #000000;
+	margin:0;
+	background:#FFFFFF;
+}
