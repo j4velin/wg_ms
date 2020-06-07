@@ -16,8 +16,11 @@ if ($_GET["rss"]) {
 	$rss->link = $url;
 	$rss->syndicationURL = $url;
 
-
-	$sql = qry("SELECT id, datum, ware, user FROM wg_".$_SESSION["wg_wg"]."_einkaufsliste WHERE privat = '0' OR (privat = '1' && user = '".$_GET["uid"]."') ORDER BY datum DESC");
+	if (is_numeric($_GET["uid"])) {
+		$sql = qry("SELECT id, datum, ware, user FROM wg_".$_SESSION["wg_wg"]."_einkaufsliste WHERE privat = '0' OR (privat = '1' && user = '".$_GET["uid"]."') ORDER BY datum DESC");
+	} else {
+		die("Ungültige UserID");
+	}
 
 	if (mysqli_num_rows($sql) > 0)
 	{
