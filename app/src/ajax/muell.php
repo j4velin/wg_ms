@@ -12,7 +12,7 @@ include("../mysql.php");
 if ($_SESSION["wg_userid"] == 0) { loginfirst(); }
 
 if (is_numeric($_GET["del"])) {
-	qry("DELETE FROM wg_".$_SESSION["wg_wg"]."_muell WHERE datum = '".$_GET["del"]."' AND user = '".$_SESSION["wg_userid"]."' AND art = '".htmlentities($_GET["art"])."'");
+	qry("DELETE FROM wg_".$_SESSION["wg_wg"]."_muell WHERE datum = '".$_GET["del"]."' AND user = '".$_SESSION["wg_userid"]."' AND art = '".escape($_GET["art"])."'");
 	echo "Änderung erfolgreich!<br />
 		<a href=\"../index.php#kuehlschrank\">weiter/a>
 		<script language=\"javascript\">
@@ -32,9 +32,9 @@ if ($_POST["datum"]) {
 	}
 	else
 	{
-		$arten = escape($_POST["art"]);
+		$arten = $_POST["art"];
 		for($i = 0; $i < sizeof($arten); $i++) {
-			qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_muell (user, datum, art) VALUES ('".$_SESSION["wg_userid"]."','".$time."','".$arten[$i]."')");
+			qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_muell (user, datum, art) VALUES ('".$_SESSION["wg_userid"]."','".$time."','".escape($arten[$i])."')");
 		}
 
 		echo "Änderung erfolgreich!<br />
