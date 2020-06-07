@@ -69,38 +69,38 @@ $row = mysqli_fetch_assoc($sql);
 echo "Dein Kontostand ist <b>".number_format($row["konto"],2,',','.')." €</b>.<br />";
 
 if ($row["konto"] < 0) { // user im minus
-echo "Du solltest einkaufen gehen oder eine 
-Ausgleichszahlung vornehmen.<br /><ul>";
+	echo "Du solltest einkaufen gehen oder eine 
+	Ausgleichszahlung vornehmen.<br /><ul>";
 
-$restschulden = $row["konto"]*(-1);
-$sql = qry("SELECT id, konto FROM wg_user WHERE wg = '".$_SESSION["wg_wg"]."' AND konto > 0 ORDER BY konto DESC");
-while(($row = mysqli_fetch_assoc($sql)) && $restschulden > 0) {
-	if ($row["konto"] - $restschulden >= 0) {
-		echo "<li>".number_format($restschulden,2,',','.')." € an ".getUserName($row["id"])."</li>";
-		$restschulden = 0;
-	} else {
-		echo "<li>".number_format($row["konto"],2,',','.')." € an ".getUserName($row["id"])."</li>";
-		$restschulden -= $row["konto"];
+	$restschulden = $row["konto"]*(-1);
+	$sql = qry("SELECT id, konto FROM wg_user WHERE wg = '".$_SESSION["wg_wg"]."' AND konto > 0 ORDER BY konto DESC");
+	while(($row = mysqli_fetch_assoc($sql)) && $restschulden > 0) {
+		if ($row["konto"] - $restschulden >= 0) {
+			echo "<li>".number_format($restschulden,2,',','.')." € an ".getUserName($row["id"])."</li>";
+			$restschulden = 0;
+		} else {
+			echo "<li>".number_format($row["konto"],2,',','.')." € an ".getUserName($row["id"])."</li>";
+			$restschulden -= $row["konto"];
+		}
 	}
-}
-echo "</ul>";
+	echo "</ul>";
 
 } else { // user im plus
 
-echo "Du solltest mehr verbrauchen oder Geld eintreiben.<ul>";
+	echo "Du solltest mehr verbrauchen oder Geld eintreiben.<ul>";
 
-$restguthaben = $row["konto"];
-$sql = qry("SELECT id, konto FROM wg_user WHERE wg = '".$_SESSION["wg_wg"]."' AND konto < 0 ORDER BY konto ASC");
-while(($row = mysqli_fetch_assoc($sql)) && $restguthaben > 0) {
-	if ($row["konto"] + $restguthaben < 0) {
-		echo "<li>".number_format($restguthaben,2,',','.')." € von ".getUserName($row["id"])."</li>";
-		$restguthaben = 0;
-	} else {
-		echo "<li>".number_format($row["konto"]*(-1),2,',','.')." € von ".getUserName($row["id"])."</li>";
-		$restguthaben += $row["konto"];
+	$restguthaben = $row["konto"];
+	$sql = qry("SELECT id, konto FROM wg_user WHERE wg = '".$_SESSION["wg_wg"]."' AND konto < 0 ORDER BY konto ASC");
+	while(($row = mysqli_fetch_assoc($sql)) && $restguthaben > 0) {
+		if ($row["konto"] + $restguthaben < 0) {
+			echo "<li>".number_format($restguthaben,2,',','.')." € von ".getUserName($row["id"])."</li>";
+			$restguthaben = 0;
+		} else {
+			echo "<li>".number_format($row["konto"]*(-1),2,',','.')." € von ".getUserName($row["id"])."</li>";
+			$restguthaben += $row["konto"];
+		}
 	}
-}
-echo "</ul>";
+	echo "</ul>";
 
 }
 
@@ -112,7 +112,7 @@ echo "<hr style=\"width: 100%; color: black; height: 1px; border: 1px solid blac
 	<option value=\"2\">an</option>
 	</select>	<select name=\"person\">";
 
-$sql = qry("SELECT id, name FROM wg_user WHERE wg = '".$_SESSION["wg_wg"]."' ORDER BY name ASC");
+$sql = qry("SELECT id, name FROM wg_user WHERE wg = '".$_SESSION["wg_wg"]."' && active = '1' ORDER BY name ASC");
 while($row = mysqli_fetch_assoc($sql)) {
 	echo "<option value=\"".$row["id"]."\">".$row["name"]."</option>";
 }
@@ -138,11 +138,11 @@ if (mysqli_num_rows($sql) <= 0) {
 	
 	while($row = mysqli_fetch_assoc($sql)) {
 		echo "<tr>
-	<td>".date("d.m.Y",$row["datum"])."</td>
-	<td>".getUserName($row["absender"])."</td>
-	<td>".getUserName($row["empfaenger"])."</td>
-	<td>".number_format($row["betrag"],2,',','.')."€</td>
-	<td>".$row["text"]."</td>
+		<td>".date("d.m.Y",$row["datum"])."</td>
+		<td>".getUserName($row["absender"])."</td>
+		<td>".getUserName($row["empfaenger"])."</td>
+		<td>".number_format($row["betrag"],2,',','.')."€</td>
+		<td>".$row["text"]."</td>
 		</tr>";
 	}
 

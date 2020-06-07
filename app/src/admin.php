@@ -14,11 +14,17 @@ if ($_SESSION["wg_userid"] != 1) {
     include("mysql.php");
     if (is_numeric($_POST["accountid"])) {
         // edit
+        if ($_POST["accountactive"] == "1") {
+            $active = 1;
+        } else {
+            $active = 0;
+        }
         if ($_POST["accountpw"]) {
             // change password
-            qry("UPDATE wg_user SET pw = '".md5($_POST["accountpw"])."' WHERE id = '".$_POST["accountid"]."'");
+            qry("UPDATE wg_user SET pw = '".md5($_POST["accountpw"])."', active = '".$active."' WHERE id = '".$_POST["accountid"]."'");
+        } else {
+            qry("UPDATE wg_user SET active = '".$active."' WHERE id = '".$_POST["accountid"]."'");
         }
-        qry("UPDATE wg_user SET active = '".escape($_POST["accountactive"])."' WHERE id = '".$_POST["accountid"]."'");
     } else if ($_POST["accountname"]) {
         // add
         $name = escape($_POST["accountname"]);

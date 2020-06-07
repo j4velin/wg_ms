@@ -117,7 +117,7 @@ echo "</table></td><td style='padding-left: 50px; padding-right: 50px;'>";
 <tr><td></td><td><b>Bio</b></td><td><b>Restmüll</b></td><td><b>Wertstoff</b></td></tr>
 <?php
 
-$sql = qry("SELECT id, name FROM wg_user WHERE wg = '".$_SESSION["wg_wg"]."' ORDER BY name ASC");
+$sql = qry("SELECT id, name FROM wg_user WHERE wg = '".$_SESSION["wg_wg"]."' && active='1' ORDER BY name ASC");
 while($row = mysqli_fetch_assoc($sql)) {
 	$bio = mysqli_num_rows(qry("SELECT user FROM wg_".$_SESSION["wg_wg"]."_muell WHERE user = '".$row["id"]."' AND art = 'bio'"));
 	$rest = mysqli_num_rows(qry("SELECT user FROM wg_".$_SESSION["wg_wg"]."_muell WHERE user = '".$row["id"]."' AND art = 'rest'"));
