@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 include("../mysql.php");
 if ($_SESSION["wg_userid"] == 0) { loginfirst(); }

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 include("../mysql.php");
 if ($_SESSION["wg_userid"] == 0) { loginfirst(); }
@@ -7,9 +7,9 @@ if ($_SESSION["wg_userid"] == 0) { loginfirst(); }
 if (is_numeric($_POST["person"]))
 {
 	if ($_POST["art"] == 1) {
-		qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_zahlungen (datum, absender, empfaenger, betrag, text) VALUES ('".time()."','".$_POST["person"]."','".$_SESSION["wg_userid"]."','".str_replace(",",".",$_POST["betrag"])."', '".strip_tags($_POST["text"])."')");
+		qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_zahlungen (datum, absender, empfaenger, betrag, text) VALUES ('".time()."','".escape($_POST["person"])."','".$_SESSION["wg_userid"]."','".str_replace(",",".",escape($_POST["betrag"]))."', '".escape($_POST["text"])."')");
 	} else if ($_POST["art"] == 2) {
-		qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_zahlungen (datum, absender, empfaenger, betrag, text) VALUES ('".time()."','".$_SESSION["wg_userid"]."','".$_POST["person"]."','".str_replace(",",".",$_POST["betrag"])."', '".strip_tags($_POST["text"])."')");
+		qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_zahlungen (datum, absender, empfaenger, betrag, text) VALUES ('".time()."','".$_SESSION["wg_userid"]."','".escape($_POST["person"])."','".str_replace(",",".",escape($_POST["betrag"]))."', '".escape($_POST["text"])."')");
 	}
 		echo "Änderung erfolgreich!<br />
 		<a href=\"../index.php#ausgleich\">» weiter »</a>

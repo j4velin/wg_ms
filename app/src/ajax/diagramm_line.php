@@ -1,12 +1,12 @@
-﻿<?php
+<?php
 session_start();
 include("../mysql.php");
 if ($_SESSION["wg_userid"] == 0) { loginfirst(); }
 
-require_once("gdgraph.php");
+require_once("GDGraph/gdgraph.php");
 
 // GDGraph(width, height [, title [, red_bg [, green_bg [, blue_bg [, red_line [, green_line [, blue_line [red_font [, green_font [, blue_font [, legend [, legend_x [, legend_y [, legend_border [, transparent_background [, line_thickness]]]]]]]]]]]]]]]]); 
-$gdg = new GDGraph(970,565,"",255,255,255,0,0,0,0,0,0,false,0,0,true,true,0);
+$gdg = new GDGraph(950,565,"",255,255,255,0,0,0,0,0,0,false,0,0,true,true,0);
 
 $daten = array();
 $ausgabenprotag = array();
@@ -21,15 +21,15 @@ $schulden = 0;
 $ausgleich = 0;
 
 $dreiWochen = 3600 * 24 * 7 * 3;
-$sql = qry("SELECT id, datum, preis, kaeufer, anz FROM wg_einkaeufe ORDER BY datum ASC");
+$sql = qry("SELECT id, datum, preis, kaeufer, anz FROM wg_".$_SESSION["wg_wg"]."_einkaeufe ORDER BY datum ASC");
 while($row = mysqli_fetch_assoc($sql))
 {
 
-	$sql5 = qry("SELECT SUM(betrag) AS ausgleich FROM wg_zahlungen WHERE absender = '".$_SESSION["wg_userid"]."' AND datum <= '".$row["datum"]."' AND datum > '".$prev."'");
+	$sql5 = qry("SELECT SUM(betrag) AS ausgleich FROM wg_".$_SESSION["wg_wg"]."_zahlungen WHERE absender = '".$_SESSION["wg_userid"]."' AND datum <= '".$row["datum"]."' AND datum > '".$prev."'");
 	$row5 = mysqli_fetch_assoc($sql5);
 	$ausgleich += $row5["ausgleich"];
 	
-	$sql5 = qry("SELECT SUM(betrag) AS ausgleich FROM wg_zahlungen WHERE empfaenger = '".$_SESSION["wg_userid"]."' AND datum <= '".$row["datum"]."' AND datum > '".$prev."'");
+	$sql5 = qry("SELECT SUM(betrag) AS ausgleich FROM wg_".$_SESSION["wg_wg"]."_zahlungen WHERE empfaenger = '".$_SESSION["wg_userid"]."' AND datum <= '".$row["datum"]."' AND datum > '".$prev."'");
 	$row5 = mysqli_fetch_assoc($sql5);
 	$ausgleich -= $row5["ausgleich"];
 
@@ -50,11 +50,11 @@ while($row = mysqli_fetch_assoc($sql))
 	}
 	
 	
-	$sql2 = qry("SELECT einkauf, anz FROM wg_einkaeufe_mitzahlung WHERE einkauf = '".$row["id"]."' && user = '".$_SESSION["wg_userid"]."'");
+	$sql2 = qry("SELECT einkauf, anz FROM wg_".$_SESSION["wg_wg"]."_einkaeufe_mitzahlung WHERE einkauf = '".$row["id"]."' && user = '".$_SESSION["wg_userid"]."'");
 	if (mysqli_num_rows($sql2) != 0)
 	{
 		if ($row["anz"] == 1) {			
-			$sql2 = qry("SELECT einkauf FROM wg_einkaeufe_mitzahlung WHERE einkauf = '".$row["id"]."'");
+			$sql2 = qry("SELECT einkauf FROM wg_".$_SESSION["wg_wg"]."_einkaeufe_mitzahlung WHERE einkauf = '".$row["id"]."'");
 			$mitzahler = mysqli_num_rows($sql2);
 			
 			if ($mitzahler > 0) { $schulden += $row["preis"] / $mitzahler; }
@@ -84,7 +84,7 @@ while($row = mysqli_fetch_assoc($sql))
 
 $prev = 0;
 
-$sql = qry("SELECT datum, SUM(preis) AS ausgaben FROM wg_einkaeufe GROUP BY datum ORDER BY datum ASC");
+$sql = qry("SELECT datum, SUM(preis) AS ausgaben FROM wg_".$_SESSION["wg_wg"]."_einkaeufe GROUP BY datum ORDER BY datum ASC");
 while($row = mysqli_fetch_assoc($sql))
 {
 	if ($prev > 0)

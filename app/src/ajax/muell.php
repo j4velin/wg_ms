@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 setlocale(LC_ALL, 'de_DE');
 date_default_timezone_set('Europe/Berlin');
@@ -24,27 +24,27 @@ if (is_numeric($_GET["del"])) {
 
 if ($_POST["datum"]) {
 
-list($tag, $monat, $jahr) = explode(".", $_POST["datum"]);
+	list($tag, $monat, $jahr) = explode(".", $_POST["datum"]);
 
-		$time = mktime(0,0,0,$monat,$tag,$jahr);
-		if (time() - $time > 604800) {
-			die("Eintragungsfrist verstrichen!");
+	$time = mktime(0,0,0,$monat,$tag,$jahr);
+	if (time() - $time > 604800) {
+		die("Eintragungsfrist verstrichen!");
+	}
+	else
+	{
+		$arten = escape($_POST["art"]);
+		for($i = 0; $i < sizeof($arten); $i++) {
+			qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_muell (user, datum, art) VALUES ('".$_SESSION["wg_userid"]."','".$time."','".$arten[$i]."')");
 		}
-		else
-		{
-			$arten = $_POST["art"];
-			for($i = 0; $i < sizeof($arten); $i++) {
-				qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_muell (user, datum, art) VALUES ('".$_SESSION["wg_userid"]."','".$time."','".$arten[$i]."')");
-			}
 
-			echo "Änderung erfolgreich!<br />
-			<a href=\"../index.php#kuehlschrank\">weiter/a>
-			<script language=\"javascript\">
-			<!--
-			window.location.href=\"../index.php#muell\";
-			// -->
-			</script>";
-		}
+		echo "Änderung erfolgreich!<br />
+		<a href=\"../index.php#kuehlschrank\">weiter/a>
+		<script language=\"javascript\">
+		<!--
+		window.location.href=\"../index.php#muell\";
+		// -->
+		</script>";
+	}
 }
 
 echo "<table border='0'><tr><td><table cellpadding=\"4\" cellspacing=\"1\"  style=\"width: 98%; border: 1px solid black;\">

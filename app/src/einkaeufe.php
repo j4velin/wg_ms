@@ -27,7 +27,12 @@ if ($_POST["datum"]) { // neu eintragen
 		$gewicht = 0;
 	}
 
-	qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_einkaeufe (datum, ware, kaeufer, preis, anz, gewicht) VALUE ('".$date."','".$_POST["ware"]."','".$_POST["kaeufer"]."','".str_replace(',','.',$_POST["preis"])."','".$_POST["anzahl"]."','".$gewicht."')");
+	$ware = escape($_POST["ware"]);
+	$kaeufer = escape($_POST["kaeufer"]);
+	$preis = escape($_POST["preis"]);
+	$anzahl = escape($_POST["anzahl"]);
+
+	qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_einkaeufe (datum, ware, kaeufer, preis, anz, gewicht) VALUE ('".$date."','".$ware."','".$kaeufer."','".str_replace(',','.',$preis)."','".$anzahl."','".$gewicht."')");
 	
 	$sql = qry("SELECT LAST_INSERT_ID() AS id");
 	$row = mysqli_fetch_assoc($sql);
@@ -40,9 +45,9 @@ if ($_POST["datum"]) { // neu eintragen
 			qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_einkaeufe_mitzahlung (einkauf, user) VALUE (".$id.",'".$row["id"]."')");
 		}
 		
-		twitter(getUserName($_POST["kaeufer"])." hat ".$_POST["ware"]." eingekauft (".$_POST["preis"]." EUR)");
+		twitter(getUserName($_POST["kaeufer"])." hat ".$ware." eingekauft (".$preis." EUR)");
 	} else { // Anzahl > 1
-		twitter(getUserName($_POST["kaeufer"])." hat ".$_POST["anzahl"]."x ".$_POST["ware"]." eingekauft (".$_POST["preis"]." EUR)");
+		twitter(getUserName($_POST["kaeufer"])." hat ".$anzahl."x ".$ware." eingekauft (".$preis." EUR)");
 	}
 
 }
@@ -74,8 +79,8 @@ else // Mitzahlung ändern
 			}
 		}	
 		else {
-			$anz = $_POST["einkauf_".$eid."_anz"];
-			$uid = $_POST["einkauf_".$eid."_uid"];
+			$anz = escape($_POST["einkauf_".$eid."_anz"]);
+			$uid = escape($_POST["einkauf_".$eid."_uid"]);
 			$gesamtanz = 0;
 			foreach($anz as $curr) {
 				$gesamtanz += $curr;

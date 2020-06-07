@@ -6,7 +6,7 @@ if ($_SESSION["wg_userid"] == 0) { loginfirst(); }
 
 if (strlen($_POST["bezeichnung"]) > 0) { // neu eintragen
 	
-	$kosten = str_replace(".",",",$_POST["kosten"]);
+	$kosten = str_replace(".",",",escape($_POST["kosten"]));
 	list($euro, $cent) = explode(",", $kosten);
 	
 	if (strpos($kosten, ",") !== FALSE) { // contains a ,
@@ -18,7 +18,7 @@ if (strlen($_POST["bezeichnung"]) > 0) { // neu eintragen
 	
 	$kosten = $euro * 100 + $cent;
 
-	qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_monatlich (bezeichnung, kosten, turnus) VALUE ('".$_POST["bezeichnung"]."','".$kosten."','".$_POST["turnus"]."')");
+	qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_monatlich (bezeichnung, kosten, turnus) VALUE ('".escape($_POST["bezeichnung"])."','".$kosten."','".escape($_POST["turnus"])."')");
 	
 } else if (is_numeric($_GET["del"])) // löschen
 {

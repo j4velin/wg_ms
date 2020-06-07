@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 if ($_SESSION["wg_userid"] == 0) { die("Bitte zuerst einloggen."); }
 include("../mysql.php");

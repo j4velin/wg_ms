@@ -1,21 +1,21 @@
-﻿<?php
+<?php
 session_start();
 include("../mysql.php");
 if ($_SESSION["wg_userid"] == 0) { loginfirst(); }
 
 if (is_numeric($_POST["einkaufid"])) {
-if (mysqli_num_rows(qry("SELECT anz FROM wg_".$_SESSION["wg_wg"]."_einkaeufe_mitzahlung WHERE einkauf = '".$_POST["einkaufid"]."' AND user = '".$_SESSION["wg_userid"]."'")) == 0) {
-		qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_einkaeufe_mitzahlung (einkauf, user, anz) VALUES ('".$_POST["einkaufid"]."','".$_SESSION["wg_userid"]."','".$_POST["anz"]."')");
-} else {
-		qry("UPDATE wg_".$_SESSION["wg_wg"]."_einkaeufe_mitzahlung SET anz = anz + '".$_POST["anz"]."' WHERE einkauf = '".$_POST["einkaufid"]."' AND user = '".$_SESSION["wg_userid"]."'");
-}
-		echo "Änderung erfolgreich!<br />
-		<a href=\"../index.php#kuehlschrank\">» weiter »</a>
-		<script language=\"javascript\">
-		<!--
-		window.location.href=\"../index.php#kuehlschrank\";
-		// -->
-		</script>";
+	if (mysqli_num_rows(qry("SELECT anz FROM wg_".$_SESSION["wg_wg"]."_einkaeufe_mitzahlung WHERE einkauf = '".$_POST["einkaufid"]."' AND user = '".$_SESSION["wg_userid"]."'")) == 0) {
+			qry("INSERT INTO wg_".$_SESSION["wg_wg"]."_einkaeufe_mitzahlung (einkauf, user, anz) VALUES ('".$_POST["einkaufid"]."','".$_SESSION["wg_userid"]."','".escape($_POST["anz"])."')");
+	} else {
+			qry("UPDATE wg_".$_SESSION["wg_wg"]."_einkaeufe_mitzahlung SET anz = anz + '".escape($_POST["anz"])."' WHERE einkauf = '".$_POST["einkaufid"]."' AND user = '".$_SESSION["wg_userid"]."'");
+	}
+	echo "Änderung erfolgreich!<br />
+	<a href=\"../index.php#kuehlschrank\">» weiter »</a>
+	<script language=\"javascript\">
+	<!--
+	window.location.href=\"../index.php#kuehlschrank\";
+	// -->
+	</script>";
 }
 
 $sql = qry("SELECT id, datum, ware, kaeufer, anz FROM wg_".$_SESSION["wg_wg"]."_einkaeufe WHERE anz > 1 ORDER BY datum DESC");

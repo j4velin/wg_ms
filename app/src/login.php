@@ -6,7 +6,7 @@ if (is_numeric($_POST["login"])) {
 
 	$sql = qry("SELECT pw, active, wg FROM wg_user WHERE id='".$_POST["login"]."' LIMIT 1");
 	$row = mysqli_fetch_assoc($sql);
-	if ($row["active"] == 0 && $_POST["login"] != 4) {
+	if ($row["active"] == 0 && $_POST["login"] != 1) {
 		echo "Account ist nicht mehr aktiv."; 
 	} else if ($row["pw"] == md5($_POST["pw"])) {
 		$_SESSION["wg_userid"] = $_POST["login"];

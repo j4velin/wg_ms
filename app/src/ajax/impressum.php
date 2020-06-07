@@ -1,9 +1,9 @@
-﻿// TODO: Impressums-Daten hinzufügen
+// TODO: Impressums-Daten hinzufügen
 Name<br />
 Anschrift<br />
 Anschrift 2<br />
 <br />
-wg@j4velin.de<br />
+eMail<br />
 <br />
 Bildquellen:<br />
 <ul>

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 include("../mysql.php");
 setlocale(LC_ALL, 'de_DE');

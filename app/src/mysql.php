@@ -41,6 +41,11 @@ function loginfirst() {
 			</script></body></html>");
 }
 
+function escape($string) {
+	Global $link;
+	return mysqli_escape_string($link, $string);
+}
+
 function getUserName($id) {
 	$row = mysqli_fetch_assoc(qry("SELECT name FROM wg_user WHERE id = '".$id."' LIMIT 1"));
 	return $row["name"];

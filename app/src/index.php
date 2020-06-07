@@ -13,8 +13,9 @@ if (isset($_SESSION["wg_setcookie"])) {
 	unset($_SESSION["wg_setcookie"]);
 }
 
+// Logindaten aus Cookie
 if ($_COOKIE["wg_userid"] == TRUE AND ($_SESSION["wg_userid"] == 0 OR $_SESSION["wg_userid"] == FALSE))
-{ // Logindaten aus Cookie
+{ 
 	$sql = qry("SELECT pw, wg FROM wg_user WHERE id = '".$_COOKIE["wg_userid"]."'");
 	$row = mysqli_fetch_assoc($sql);
 	if ($_COOKIE["wg_pw"] == $row["pw"])
@@ -24,7 +25,7 @@ if ($_COOKIE["wg_userid"] == TRUE AND ($_SESSION["wg_userid"] == 0 OR $_SESSION[
 		setcookie("wg_userid",$_COOKIE["wg_userid"], time()+1209600);
 		setcookie("wg_pw",$_COOKIE["wg_pw"], time()+1209600);
 	}
-} // Logindaten aus Cookie ENDE
+}
 
 if (!is_numeric($_SESSION["wg_userid"]))
 {
