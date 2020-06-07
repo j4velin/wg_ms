@@ -1,7 +1,7 @@
 version: '2.0'
 services:
     app:
-        build: app
+        image: j4velin/wg_app
         ports:
             - "8080:80"
         links:
@@ -12,7 +12,7 @@ services:
             MYSQL_USER: wg
             MYSQL_PASSWORD: test
     db:
-        build: db
+        image: j4velin/wg_db
         command: --default-authentication-plugin=mysql_native_password
         environment:
             MYSQL_DATABASE: wg
