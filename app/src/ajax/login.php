@@ -7,7 +7,7 @@ echo "<div style='float:left;'><form method=\"post\" action=\"login.php\">";
 echo "<table border=\"0\">
 <tr><td>Login:</td><td><select name=\"login\">";
 
-$sql = qry("SELECT id, name FROM wg_user WHERE wg = '1' ORDER BY name ASC");
+$sql = qry("SELECT id, name, active FROM wg_user WHERE wg = '1' ORDER BY active DESC, name ASC");
 while($row = mysqli_fetch_assoc($sql)) {
 	echo "<option value=\"".$row["id"]."\">".$row["name"]."</option>";
 }

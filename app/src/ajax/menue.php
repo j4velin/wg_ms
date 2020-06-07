@@ -5,7 +5,8 @@ if (is_numeric($_SESSION["wg_userid"]) AND $_SESSION["wg_userid"] > 0)
 	if ($_SESSION["wg_userid"] == 1) {
 		// admin menu
 		echo "<a class=\"menue\" href=\"#admin\" onclick=\"get_content('content','ajax/admin.php'); document.getElementById('content2').style.display='none';\">Benutzerverwaltung</a> | 
-		<a class=\"menue\" href=\"#account\" onclick=\"get_content('content','ajax/account.php'); document.getElementById('content2').style.display='none';\">Admin Account</a>";
+		<a class=\"menue\" href=\"#account\" onclick=\"get_content('content','ajax/account.php'); document.getElementById('content2').style.display='none';\">Admin Account</a> | 
+		<a class=\"menue\" href=\"logout.php\" onclick=\"document.getElementById('content2').style.display='none';\">Logout</a>";
 	} else {
 		// normal menu
 		echo "<a class=\"menue\" href=\"#einkaeufe\" onclick=\"get_content('content','ajax/einkaeufe.php'); showKonto();\">Einkäufe</a> |
